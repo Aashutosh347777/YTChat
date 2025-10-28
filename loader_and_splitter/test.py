@@ -2,6 +2,26 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from googletrans import Translator
 import asyncio
 
+# ytt_api = YouTubeTranscriptApi()
+
+# transcript_metadata= ytt_api.list("CHGmM4RfeIw")
+
+# base_languages = [x.language_code for x in transcript_metadata if not x.is_generated] #looking for manual transcritps
+
+# if not base_languages:
+#     base_languages = [x.language_code for x in transcript_metadata if x.is_generated] #settling for yt generated transcripts
+
+# if not base_languages:
+#     print("No transcripts available.")
+#     base_languages = None
+
+# source_lang = base_languages[0]
+# print(source_lang)
+# print(base_languages)
+
+# fetch_out = ytt_api.fetch("CHGmM4RfeIw", languages=[source_lang])
+# print(fetch_out[0])
+
 async def main():
     from googletrans import Translator
     translator = Translator()
@@ -10,7 +30,7 @@ async def main():
     ytt_api = YouTubeTranscriptApi()
 
     # 2. Fetch the Hindi transcript
-    output = ytt_api.fetch("fHBR1j1kJ1I", languages=['hi'])
+    output = ytt_api.fetch("CHGmM4RfeIw", languages=['es'])
     
     # 3. Select the first segment object
     first_segment = output[0]
@@ -25,17 +45,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
-# # 2. Retrieve the list of available transcripts
-# transcript_list = ytt_api.list('aircAruvnKk')
-
-# # 3. Find the original English transcript object (assuming English is the source language)
-# transcript = transcript_list.find_transcript(['en'])
-
-# # 4. Use the .translate() method to get a new, translated Transcript object
-# # Note: 'de' is for German, NOT Spanish. 'es' would be for Spanish.
-# translated_transcript = transcript.translate('de') 
-
-# # 5. Fetch the data from the translated object and print
-# translated_data = translated_transcript.fetch()
-# print(translated_data)

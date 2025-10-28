@@ -4,3 +4,5 @@ requirements.txt
 __pycache__/
 *.pyc
 .pytest_cache/
+
+chroma_store/
