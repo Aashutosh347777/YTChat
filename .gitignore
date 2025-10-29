@@ -1,5 +1,4 @@
 env_langchain/
-requirements.txt
 
 __pycache__/
 *.pyc

@@ -41,7 +41,6 @@ async def load_transcript(id):
                 return None
             
             source_lang = base_languages[0]
-            print(source_lang)
         
         except Exception as e:
             print("Exception:",e)
