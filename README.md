@@ -1,3 +1,3 @@
 # Under Construction
 
-# Added Multi Query Retriever with MMR 
+# Chaining Finished, changed the vector store logic UI(possibly streamlit) remaining to be added.

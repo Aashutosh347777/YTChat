@@ -2,6 +2,7 @@ from youtube_transcript_api import YouTubeTranscriptApi,TranscriptsDisabled
 from langchain_text_splitters import CharacterTextSplitter
 from googletrans import Translator
 import asyncio
+import re
 
 # transcript api obj
 yt_api = YouTubeTranscriptApi()
@@ -48,11 +49,11 @@ async def load_transcript(id):
         transcript_txt = None
         if source_lang == 'en':
             fetched_txt = yt_api.fetch(video_id=id,languages=[source_lang])
-            transcript_txt = " ".join(t.text for t in fetched_txt)
+            raw_text = " ".join(t.text for t in fetched_txt)
+            transcript_txt = clean_transcript(raw_text)
         else:
             transcript_txt = await translate_to_english(id,source_lang)
                
-
 
     return {'meta':transcript_metadata,'txt': transcript_txt}
 
@@ -61,7 +62,9 @@ async def translate_to_english(id,source_lang):
     transcript = yt_api.fetch(video_id=id,languages=[source_lang])
     full_text = " ".join(t.text for t in transcript)
 
-    text_chunks = text_splitter.split_text(full_text)
+    full_text_cleaned = clean_transcript(full_text)
+
+    text_chunks = text_splitter.split_text(full_text_cleaned)
     translated_chunks = []
     for chunk in text_chunks:
         tranlsated_text = await translator.translate(chunk,src=source_lang,dest='en')
@@ -70,5 +73,26 @@ async def translate_to_english(id,source_lang):
     txt = " ".join(translated_chunks)
     return txt
 
-# output = asyncio.run(load_transcript(""))
+def clean_transcript(text):
+
+    # removing the bad tags e.g., [/ASS], [/BixX])
+    bad_tags = ['[/ASS]', '[/BixX]', '[/CLIP]', '[/USER]', '[/DES]', '[/FT]']
+    
+    for tag in bad_tags:
+        text = text.replace(tag, ' ')
+    
+    # removing [Music], [Laughter]) or any inside the brackets
+    text = re.sub(r'\[.*?\]', ' ', text)
+    
+    # cleaning up excessive whitespace
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    text = re.sub(r'\[/?\w+\]', ' ', text)
+    
+    return text
+
+# output = asyncio.run(load_transcript("Gfr50f6ZBvo"))
+
 # print(output['txt'])
+
+# print("---meta---",output['meta'])

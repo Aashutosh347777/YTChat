@@ -11,8 +11,8 @@ def retriever_functionality(id):
     retriever = vector_store_obj.as_retriever(
         search_type = "mmr",
         search_kwargs = {
-            "k":5,
-            "fetch_k" : 20,
+            "k":3,
+            "fetch_k" : 10,
             "lambda_mult":0.5
         },
     ) #by default uses similarity for the search
@@ -30,5 +30,5 @@ def retriever_functionality(id):
 
     return mqr
 
-output = retriever_functionality("Z1GnEgCcCWE")
-print(output.invoke("how was the journey to join forces?"))
+# output = retriever_functionality("Z1GnEgCcCWE")
+# print(output.invoke("how was the journey to join forces?"))
