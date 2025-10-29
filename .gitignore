@@ -4,6 +4,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-chroma_store/
+chroma_transcript_store/
 
 .env
