@@ -7,3 +7,5 @@ __pycache__/
 chroma_transcript_store/
 
 .env
+
+chain_graph.md
